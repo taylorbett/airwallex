@@ -6,7 +6,7 @@ export class InviteModal extends React.Component {
 
         this.state = {
             isSending: false,
-            error: '',
+            errorMessage: '',
             fullName: '',
             email: '',
             confirmEmail: '',
@@ -38,6 +38,10 @@ export class InviteModal extends React.Component {
     
     async submitRequest(event) {
         event.preventDefault();
+        this.setState({
+            isSending: true,
+            errorMessage: '',
+        });
         const fetchUrl = 'https://l94wc2001h.execute-api.ap-southeast-2.amazonaws.com/prod/fake-auth';
         const requestBody = JSON.stringify({
             name: this.state.fullName,
@@ -50,8 +54,16 @@ export class InviteModal extends React.Component {
             },
             method: 'POST',
             body: requestBody,
+        }).then(res => {
+          return res.json();
+        }).then(data => {
+            console.log(data);
+            if (data.errorMessage !== undefined) {
+                this.setState({
+                    errorMessage: data.errorMessage,
+                });
+            }
         });
-        console.log(request.json());
     }
     
     render() {
@@ -65,6 +77,7 @@ export class InviteModal extends React.Component {
                     <input type="text" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange}/>
                     <input type="text" placeholder="Confirm email" value={this.state.confirmEmail} onChange={this.handleConfirmEmailChange}/>
                     <input type="submit" value="Send request" />
+                    { this.state.errorMessage ? <p>{this.state.errorMessage}</p> : null }
                 </form>
             </div>
         );
