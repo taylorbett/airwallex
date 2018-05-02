@@ -10,6 +10,7 @@ export class InviteModal extends React.Component {
             fullName: '',
             email: '',
             confirmEmail: '',
+            registered: false,
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -56,14 +57,35 @@ export class InviteModal extends React.Component {
             body: requestBody,
         }).then(res => {
           return res.json();
-        }).then(data => {
-            console.log(data);
-            if (data.errorMessage !== undefined) {
-                this.setState({
-                    errorMessage: data.errorMessage,
-                });
-            }
-        });
+        })
+        console.log(request);
+        if (request.errorMessage !== undefined) {
+            this.setState({
+                errorMessage: request.errorMessage,
+            });
+        } else {
+            this.setState({
+                registered: true,
+            });
+        }
+    }
+
+    renderUnregistered() {
+        return (
+            <form onSubmit={this.submitRequest}>
+                <input type="text" placeholder="Full name" value={this.state.fullName} onChange={this.handleNameChange} />
+                <input type="text" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange}/>
+                <input type="text" placeholder="Confirm email" value={this.state.confirmEmail} onChange={this.handleConfirmEmailChange}/>
+                <input type="submit" value="Send request" />
+                { this.state.errorMessage ? <p>{this.state.errorMessage}</p> : null }
+            </form>
+        );
+    }
+
+    renderRegistered() {
+        return (
+            <p>Thanks for registering!</p>
+        );
     }
     
     render() {
@@ -72,13 +94,7 @@ export class InviteModal extends React.Component {
         }
         return (
             <div className="invite-modal" style={modalStyles}>
-                <form onSubmit={this.submitRequest}>
-                    <input type="text" placeholder="Full name" value={this.state.fullName} onChange={this.handleNameChange} />
-                    <input type="text" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange}/>
-                    <input type="text" placeholder="Confirm email" value={this.state.confirmEmail} onChange={this.handleConfirmEmailChange}/>
-                    <input type="submit" value="Send request" />
-                    { this.state.errorMessage ? <p>{this.state.errorMessage}</p> : null }
-                </form>
+                {this.state.registered ? this.renderRegistered() : this.renderUnregistered()}
             </div>
         );
     }
