@@ -7,7 +7,7 @@ export class GetInvite extends React.PureComponent {
     getStyles() {
         return {
             container: {
-                padding: '40px 20px',
+                padding: '60px 40px',
             },
             text: {
                 margin: '20px 0px',
