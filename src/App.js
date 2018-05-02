@@ -4,6 +4,8 @@ import GetInvite from './modules/GetInvite';
 import Footer from './core/components/Footer';
 import InviteModal from './modules/InviteModal';
 
+import brocolliImg from './img/broccoli.jpg';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -29,8 +31,13 @@ class App extends Component {
   }
   
   render() {
+    const bgStyles = {
+      backgroundImage: `url(${brocolliImg}`,
+    };
+
     return (
       <div className="App">
+        <div className="App-background" style={bgStyles}/>
         <header className="App-header">
           <h1 className="App-title">Broccoli &amp; Co.</h1>
         </header>
