@@ -1,6 +1,7 @@
 /*eslint no-useless-escape: "off"*/
 import React from 'react';
 import Radium from 'radium';
+import PropTypes from 'prop-types';
 
 import {
     Alert, 
@@ -254,5 +255,17 @@ export class InviteModal extends React.Component {
         );
     }
 }
+
+InviteModal.defaultProps = {
+    showModal: false,
+    registered: false,
+};
+
+InviteModal.propTypes = {
+    showModal: PropTypes.bool,
+    handleModalClose: PropTypes.func,
+    handleRegistration: PropTypes.func,
+    registered: PropTypes.bool,
+};
 
 export default Radium(InviteModal);

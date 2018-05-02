@@ -1,5 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
+import PropTypes from 'prop-types';
 
 import { Button } from 'react-bootstrap';
 
@@ -50,5 +51,14 @@ export class GetInvite extends React.PureComponent {
         );
     }
 }
+
+GetInvite.defaultProps = {
+    registered: false,
+};
+
+GetInvite.propTypes = {
+    registered: PropTypes.bool,
+    handleModalOpen: PropTypes.func,
+};
 
 export default Radium(GetInvite);
