@@ -1,5 +1,6 @@
 /*eslint no-useless-escape: "off"*/
 import React from 'react';
+import Radium from 'radium';
 
 import {
     Alert, 
@@ -34,6 +35,26 @@ export class InviteModal extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.readyToSubmit = this.readyToSubmit.bind(this);
         this.submitRequest = this.submitRequest.bind(this);
+    }
+
+    getStyles() {
+        return {
+            container: {
+                textAlign: 'center',
+            },
+            modalBody: {
+                padding: '40px 20px',
+            },
+            button: {
+                borderRadius: '0px',
+                backgroundColor: 'transparent',
+                border: '1px solid #222',
+                color: '#222',
+            },
+            ctrlGroup: {
+                textAlign: 'left',
+            }
+        };
     }
 
     handleNameChange(event) {
@@ -155,12 +176,13 @@ export class InviteModal extends React.Component {
         return null;
     }
 
-    renderUnregistered() {
+    renderUnregistered(styles) {
         return this.state.isSending ?
             <Spinner name="three-bounce" fadeIn='none' />
         :
             <form onSubmit={this.submitRequest}>
                 <FormGroup
+                    style={styles.ctrlGroup}
                     controlId="fullNameText"
                     validationState={this.getNameValidationState()}
                 >
@@ -174,6 +196,7 @@ export class InviteModal extends React.Component {
                     {this.state.form.fullNameMessage ? <Alert bsStyle="danger">{this.state.form.fullNameMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup
+                    style={styles.ctrlGroup}
                     controlId="emailText"
                     validationState={this.getEmailValidationState()}
                 >
@@ -187,6 +210,7 @@ export class InviteModal extends React.Component {
                     {this.state.form.emailMessage ? <Alert bsStyle="danger">{this.state.form.emailMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup
+                    style={styles.ctrlGroup}
                     controlId="confirmEmailText"
                     validationState={this.getConfirmEmailValidationState()}
                 >
@@ -202,32 +226,33 @@ export class InviteModal extends React.Component {
                 { this.state.errorMessage ?
                     <Alert bsStyle="danger">{this.state.errorMessage}</Alert>
                 : null }
-                <Button type="submit" bsStyle="primary" disabled={!this.readyToSubmit()}>Submit</Button>
+                <Button style={styles.button} type="submit" bsStyle="primary" disabled={!this.readyToSubmit()}>Submit</Button>
             </form>;
     }
 
-    renderRegistered() {
+    renderRegistered(styles) {
         return (
             <React.Fragment>
                 <p>Thanks for registering!</p>
                 <p>You will be one of the first to experience Broccoli &amp; Co. when we launch.</p>
-                <Button onClick={() => this.handleClose()}>Close</Button>
+                <Button style={styles.button} onClick={() => this.handleClose()}>Close</Button>
             </React.Fragment>
         );
     }
     
     render() {
+        const styles = this.getStyles();
         return (
-            <Modal show={this.props.showModal} onHide={this.handleClose}>
+            <Modal show={this.props.showModal} onHide={this.handleClose} style={styles.container}>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.registered ? 'All done!' : 'Request an invite'}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {this.props.registered ? this.renderRegistered() : this.renderUnregistered()}
+                <Modal.Body style={styles.modalBody}>
+                    {this.props.registered ? this.renderRegistered(styles) : this.renderUnregistered(styles)}
                 </Modal.Body>
             </Modal>
         );
     }
 }
 
-export default InviteModal;
+export default Radium(InviteModal);
