@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="get-invite"
+  style={
+    Object {
+      "padding": "60px 40px",
+    }
+  }
+>
+  <h2
+    style={
+      Object {
+        "margin": "20px 0px",
+      }
+    }
+  >
+    A better way to enjoy every day.
+  </h2>
+  <p
+    style={
+      Object {
+        "margin": "20px 0px",
+      }
+    }
+  >
+    Be the first to know when we launch
+  </p>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "border": "1px solid #fff",
+        "borderRadius": "0px",
+      }
+    }
+    type="button"
+  >
+    Request an invite
+  </button>
+</div>
+`;
