@@ -24,7 +24,7 @@ export class GetInvite extends React.PureComponent {
         return (
             <React.Fragment>
                 <h2 style={styles.text}>A better way to enjoy every day.</h2>
-                <p style={styles.text}>🎉 Thanks for registering!</p>
+                <p style={styles.text}><span role="img" aria-label="party-emoji">🎉</span> Thanks for registering!</p>
                 <p style={styles.text}>You will be one of the first to experience Broccoli &amp; Co. when we open.</p>
                 <Button style={styles.button} onClick={() => this.props.handleModalOpen()} bsStyle="success">Registered &#10004;</Button>
             </React.Fragment>
@@ -51,4 +51,4 @@ export class GetInvite extends React.PureComponent {
     }
 }
 
-export default GetInvite;
+export default Radium(GetInvite);
