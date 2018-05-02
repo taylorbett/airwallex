@@ -26,7 +26,6 @@ export class InviteModal extends React.Component {
                 confirmEmail: '',
                 confirmEmailMessage: '',
             },
-            registered: false,
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -108,8 +107,8 @@ export class InviteModal extends React.Component {
         } else {
             this.setState({
                 isSending: false,
-                registered: true,
             });
+            this.props.handleRegistration();
         }
     }
 
@@ -221,10 +220,10 @@ export class InviteModal extends React.Component {
         return (
             <Modal show={this.props.showModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.state.registered ? 'All done!' : 'Request an invite'}</Modal.Title>
+                    <Modal.Title>{this.props.registered ? 'All done!' : 'Request an invite'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {this.state.registered ? this.renderRegistered() : this.renderUnregistered()}
+                    {this.props.registered ? this.renderRegistered() : this.renderUnregistered()}
                 </Modal.Body>
             </Modal>
         );
