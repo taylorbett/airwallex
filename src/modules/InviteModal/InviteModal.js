@@ -33,6 +33,7 @@ export class InviteModal extends React.Component {
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleConfirmEmailChange = this.handleConfirmEmailChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.readyToSubmit = this.readyToSubmit.bind(this);
         this.submitRequest = this.submitRequest.bind(this);
     }
 
@@ -63,9 +64,23 @@ export class InviteModal extends React.Component {
     handleClose() {
         this.props.handleModalClose();
     }
+
+    readyToSubmit() {
+        if ((this.getNameValidationState() && this.getNameValidationState() !== 'success') ||
+            (this.getEmailValidationState() && this.getEmailValidationState() !== 'success') ||
+            (this.getConfirmEmailValidationState() && this.getConfirmEmailValidationState() !== 'success') ||
+            (!this.getNameValidationState() || !this.getEmailValidationState() || !this.getConfirmEmailValidationState())
+        ) {
+            return false;
+        }
+        return true;
+    }
     
     async submitRequest(event) {
         event.preventDefault();
+        if (!this.readyToSubmit()) {
+            return false;
+        }
         this.setState({
             isSending: true,
             errorMessage: '',
@@ -84,8 +99,7 @@ export class InviteModal extends React.Component {
             body: requestBody,
         }).then(res => {
           return res.json();
-        })
-        console.log(request);
+        });
         if (request.errorMessage !== undefined) {
             this.setState({
                 isSending: false,
@@ -189,7 +203,7 @@ export class InviteModal extends React.Component {
                 { this.state.errorMessage ?
                     <Alert bsStyle="danger">{this.state.errorMessage}</Alert>
                 : null }
-                <Button type="submit" bsStyle="primary" >Submit</Button>
+                <Button type="submit" bsStyle="primary" disabled={!this.readyToSubmit()}>Submit</Button>
             </form>;
     }
 
