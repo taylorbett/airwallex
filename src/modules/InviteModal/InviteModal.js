@@ -22,11 +22,11 @@ export class InviteModal extends React.Component {
             errorMessage: '',
             form: {
                 fullName: '',
-                fullNameMessage: '',
+                fullNameMessage: 'Name must be at least 3 characters',
                 email: '',
-                emailMessage: '',
+                emailMessage: 'Please enter a valid email',
                 confirmEmail: '',
-                confirmEmailMessage: '',
+                confirmEmailMessage: 'Email confirmation does not match',
             },
         };
 
@@ -140,11 +140,6 @@ export class InviteModal extends React.Component {
             if (value.length >= 3) {
                 return 'success';
             }
-            // this.setState({
-            //     form: Object.assign(this.state.form, {
-            //         confirmEmailMessage: 'Name must be at least 3 characters long',
-            //     }),
-            // });
             return 'error';
         }
         return null;
@@ -166,11 +161,6 @@ export class InviteModal extends React.Component {
             if (value === this.state.form.email) {
                 return 'success';
             } else {
-                // this.setState({
-                //     form: Object.assign(this.state.form, {
-                //         confirmEmailMessage: 'Email confirmation does not match',
-                //     }),
-                // });
                 return 'error';
             }
         }
@@ -181,7 +171,7 @@ export class InviteModal extends React.Component {
         return this.state.isSending ?
             <Spinner name="three-bounce" fadeIn='none' />
         :
-            <form onSubmit={this.submitRequest}>
+            <form onSubmit={this.submitRequest} className="invite-modal-form">
                 <FormGroup
                     style={styles.ctrlGroup}
                     controlId="fullNameText"
@@ -194,7 +184,7 @@ export class InviteModal extends React.Component {
                         placeholder="Full name"
                         onChange={this.handleNameChange}
                     />
-                    {this.state.form.fullNameMessage ? <Alert bsStyle="danger">{this.state.form.fullNameMessage}</Alert> : null}
+                    {this.getNameValidationState() === 'error' ? <Alert bsStyle="danger">{this.state.form.fullNameMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup
                     style={styles.ctrlGroup}
@@ -208,7 +198,7 @@ export class InviteModal extends React.Component {
                         placeholder="Email"
                         onChange={this.handleEmailChange}
                     />
-                    {this.state.form.emailMessage ? <Alert bsStyle="danger">{this.state.form.emailMessage}</Alert> : null}
+                    {this.getEmailValidationState() === 'error' ? <Alert bsStyle="danger">{this.state.form.emailMessage}</Alert> : null}
                 </FormGroup>
                 <FormGroup
                     style={styles.ctrlGroup}
@@ -222,7 +212,7 @@ export class InviteModal extends React.Component {
                         placeholder="Confirm email"
                         onChange={this.handleConfirmEmailChange}
                     />
-                    {this.state.form.confirmEmailMessage ? <Alert bsStyle="danger">{this.state.form.confirmEmailMessage}</Alert> : null}
+                    {this.getConfirmEmailValidationState() === 'error'  ? <Alert bsStyle="danger">{this.state.form.confirmEmailMessage}</Alert> : null}
                 </FormGroup>
                 { this.state.errorMessage ?
                     <Alert bsStyle="danger">{this.state.errorMessage}</Alert>
