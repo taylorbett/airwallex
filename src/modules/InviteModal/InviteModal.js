@@ -9,6 +9,7 @@ import {
     FormControl,
     Modal 
 } from 'react-bootstrap';
+import Spinner from 'react-spinkit';
 
 export class InviteModal extends React.Component {
     constructor(props) {
@@ -87,10 +88,12 @@ export class InviteModal extends React.Component {
         console.log(request);
         if (request.errorMessage !== undefined) {
             this.setState({
-                apiMessage: request.errorMessage,
+                isSending: false,
+                errorMessage: request.errorMessage,
             });
         } else {
             this.setState({
+                isSending: false,
                 registered: true,
             });
         }
@@ -140,7 +143,9 @@ export class InviteModal extends React.Component {
     }
 
     renderUnregistered() {
-        return (
+        return this.state.isSending ?
+            <Spinner name="three-bounce" fadeIn='none' />
+        :
             <form onSubmit={this.submitRequest}>
                 <FormGroup
                     controlId="fullNameText"
@@ -181,25 +186,28 @@ export class InviteModal extends React.Component {
                     />
                     {this.state.form.confirmEmailMessage ? <Alert bsStyle="danger">{this.state.form.confirmEmailMessage}</Alert> : null}
                 </FormGroup>
-                <Button type="submit" bsStyle="primary" >Submit</Button>
                 { this.state.errorMessage ?
                     <Alert bsStyle="danger">{this.state.errorMessage}</Alert>
                 : null }
-            </form>
-        );
+                <Button type="submit" bsStyle="primary" >Submit</Button>
+            </form>;
     }
 
     renderRegistered() {
         return (
-            <p>Thanks for registering!</p>
+            <React.Fragment>
+                <p>Thanks for registering!</p>
+                <p>You will be one of the first to experience Broccoli &amp; Co. when we launch.</p>
+                <Button onClick={() => this.handleClose()}>Close</Button>
+            </React.Fragment>
         );
     }
     
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.handleClose}>
-                <Modal.Header>
-                    <Modal.Title>Request an invite</Modal.Title>
+                <Modal.Header closeButton>
+                    <Modal.Title>{this.state.registered ? 'All done!' : 'Request an invite'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {this.state.registered ? this.renderRegistered() : this.renderUnregistered()}
