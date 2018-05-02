@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Button } from 'react-bootstrap';
+
 export class GetInvite extends React.Component {
     constructor(props) {
         super(props);
@@ -12,7 +14,7 @@ export class GetInvite extends React.Component {
             <div className="get-invite">
                 <h2>A better way to enjoy every day.</h2>
                 <p>Be the first to know when we launch</p>
-                <button onClick={() => this.props.handleModalOpen()}>Request an invite</button>
+                <Button onClick={() => this.props.handleModalOpen()} bsStyle="primary">Request an invite</Button>
             </div>
         );
     }
